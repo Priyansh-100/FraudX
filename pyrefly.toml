@@ -1,0 +1,14 @@
+# Pyrefly Configuration: Modern 2026 Standards
+# Using relative paths for portability and uv environment mapping
+
+project-includes = ["src"]
+project-excludes = [".venv", "**/__pycache__"]
+search-path = ["src"]
+python-interpreter-path = ".venv/bin/python3"
+python-version = "3.13"
+disable-search-path-heuristics = true
+
+[analysis]
+type-checking-mode = "strict"
+diagnostic-mode = "workspace"
+display-type-errors = "force-on"
