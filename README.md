@@ -4,14 +4,14 @@
 
 Financial fraud detection is a critical real‑world machine learning problem characterized by **extreme class imbalance**, evolving fraud patterns, and high business risk. In real financial systems, fraudulent transactions typically represent **less than 1%** of all transactions, making detection challenging for traditional machine learning models.
 
-This project builds a **production‑oriented fraud detection system** designed to accurately identify rare fraudulent transactions while minimizing false positives.
+This project builds a **comprehensive fraud detection system** designed to accurately identify rare fraudulent transactions while minimizing false positives.
 
 The focus of this project includes:
 
 * Handling extreme class imbalance
 * Building robust fraud detection models
 * Evaluating models using business‑relevant metrics
-* Implementing production‑ready ML pipeline
+* Implementing robust machine learning pipelines
 
 ---
 
