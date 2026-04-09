@@ -1,36 +1,57 @@
-# FraudX
+# FraudX: Intelligent Fraud Detection Pipeline
 
-## Overview
+FraudX is a high-performance financial fraud detection system designed to identify rare fraudulent transactions within extremely imbalanced datasets. Built with modern Python standards and a focus on financial impact, it bridges the gap between machine learning metrics and real-world business value.
 
-Financial fraud detection is a critical real‑world machine learning problem characterized by **extreme class imbalance**, evolving fraud patterns, and high business risk. In real financial systems, fraudulent transactions typically represent **less than 1%** of all transactions, making detection challenging for traditional machine learning models.
+## Key Features
 
-This project builds a **comprehensive fraud detection system** designed to accurately identify rare fraudulent transactions while minimizing false positives.
+*   **Advanced Feature Engineering**: Includes Log-transformation for skewed amounts and Cyclic (Sine/Cosine) encoding for temporal patterns.
+*   **Automated Hyperparameter Optimization**: Integrated Optuna engine that searches for the optimal XGBoost configuration to maximize Precision-Recall AUC.
+*   **Business Impact Analysis**: Evaluation includes financial metrics such as Potential Loss Prevented and False Alarm Costs.
+*   **Modern Workspace**: Managed by uv with a flat src/ layout for high developer velocity.
+*   **Rigorous QA**: Zero-tolerance policy for linting and type errors via Ruff and Mypy (Strict).
 
-The focus of this project includes:
 
-* Handling extreme class imbalance
-* Building robust fraud detection models
-* Evaluating models using business‑relevant metrics
-* Implementing robust machine learning pipelines
+## Getting Started
 
----
+### Prerequisites
+*   Python 3.13+
+*   uv installed on your system.
 
-## Problem Statement
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/Priyansh-100/FraudX.git
+cd FraudX
 
-Financial institutions process millions of transactions daily. Fraudulent transactions are rare but highly impactful. Traditional models often achieve high accuracy but fail to detect fraud effectively.
+# Synchronize dependencies and environment
+uv sync --all-extras
+```
 
-Example:
+### Running the Pipeline
+```bash
+# Execute the full end-to-end pipeline (Data -> Tuning -> Eval)
+uv run src/main.py
+```
 
-* 99.5% Legitimate Transactions
-* 0.5% Fraudulent Transactions
+## Current Performance Baseline
 
-A naive model predicting all transactions as legitimate achieves **99.5% accuracy** but fails completely at fraud detection.
+The model is evaluated on a synthetic dataset with a 0.5% fraud ratio.
 
-This project addresses:
+| Metric | Value |
+| :--- | :--- |
+| **Precision-Recall AUC** | ~0.82 |
+| **Recall (Fraud Detection)** | 60% - 70% |
+| **False Positives** | < 0.1% |
+| **Net Financial Benefit** | ~$2,960 / 2k tx |
 
-* Extreme class imbalance
-* Rare event detection
-* False negative minimization
-* Business‑focused evaluation
+## Quality Assurance
 
----
+To maintain high code quality standards, run the following checks:
+
+```bash
+# Linting & Formatting
+uv run ruff check src
+
+# Strict Type Checking
+uv run mypy src
+```
