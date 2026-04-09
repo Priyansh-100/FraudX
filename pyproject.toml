@@ -39,7 +39,14 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "PD", "N", "C4", "T20"]
-ignore = ["E501"]
+ignore = [
+    "E501",  # line too long
+    "PD901", # 'df' is a bad variable name
+    "N806",  # Variable 'X' should be lowercase
+    "N803",  # Argument 'X' should be lowercase
+    "PD002", # 'inplace=True' is fine
+]
+
 
 [tool.ruff.format]
 quote-style = "double"

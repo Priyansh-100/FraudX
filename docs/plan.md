@@ -1,57 +1,44 @@
 # Project Implementation Plan: FraudX
 
 ## Objective
-Develop a robust financial fraud detection system that effectively identifies rare fraudulent transactions (less than 1%) while minimizing false positives, utilizing modern Python development standards for 2026.
+Develop a robust financial fraud detection system that effectively identifies rare fraudulent transactions (less than 1%) while minimizing false positives, utilizing modern Python development standards.
 
-## Phase 1: Environment and Project Structure
+## Phase 1: Environment and Project Structure (COMPLETED)
 1. Initialize the project using `uv` for dependency management and environment isolation.
-2. Establish a `src` layout to ensure professional packaging and reliable testing.
-3. Configure `pyproject.toml` with necessary metadata and tool configurations (ruff, pytest, mypy).
-4. Define the directory structure:
-    - `src/`: Core logic and model pipelines (main package root).
-    - `tests/`: Project test suite.
-    - `docs/`: Documentation and planning.
-    - `data/`: Data storage (git-ignored for large files).
+2. Set up a flat `src/` layout for simple, modular access to pipeline components.
+3. Configure `Ruff` and `Mypy (strict)` for high-quality code and type safety.
+4. Establish IDE-alignment via `pyrefly.toml` and `pyrightconfig.json`.
 
-## Phase 2: Data Ingestion and Exploration
-1. Set up data ingestion scripts to handle large-scale financial datasets.
-2. Perform Exploratory Data Analysis (EDA) focusing on:
-    - Feature distributions and correlations.
-    - Temporal patterns in fraud.
-    - Analyzing the extent of class imbalance.
-3. Implement data validation checks to ensure data quality.
+## Phase 2: Data Ingestion and Exploration (COMPLETED)
+1. Implement a high-fidelity synthetic data generator in `src/data_generator.py`.
+2. Generate an imbalanced dataset (0.5% fraud ratio) with 30 features (PCA-like V-features + Time + Amount).
+3. Implement basic ingestion and logging in the main orchestrator.
 
-## Phase 3: Preprocessing and Imbalance Handling
-1. Implement robust scaling for financial features (often heavy-tailed).
-2. Apply advanced techniques for handling extreme class imbalance:
-    - Cost-sensitive learning (adding weight to the minority class).
-    - Strategic resampling (SMOTE, ADASYN, or Under-sampling) if required by the model.
-3. Feature engineering:
-    - Transaction frequency and aggregation features.
-    - Time-since-last-transaction features.
-    - Categorical encoding for merchant/user IDs.
+## Phase 3: Preprocessing and Feature Engineering (COMPLETED)
+1. Apply Log-transformation to the `Amount` feature to reduce skewness.
+2. Transform `Time` into cyclic Sine/Cosine components (hour-based) to capture daily patterns.
+3. Implement `RobustScaler` to handle outliers in PCA features.
+4. Ensure stratified train-test splitting to maintain fraud ratios.
 
-## Phase 4: Model Development and Training
-1. Establish a baseline model (e.g., Logistic Regression or Random Forest).
-2. Implement advanced gradient boosted trees (XGBoost, LightGBM, or CatBoost) optimized for rare event detection.
-3. Utilize modern hyperparameter optimization (Optuna) with a focus on non-accuracy metrics.
-4. Implement k-fold cross-validation with stratification to maintain class ratios.
+## Phase 4: Model Development and Tuning (COMPLETED)
+1. Implement a cost-sensitive `XGBoost` classifier using `scale_pos_weight`.
+2. Integrate `Optuna` for automated hyperparameter optimization (n=20 trials).
+3. Target **PR-AUC** as the primary optimization metric for imbalanced data.
 
-## Phase 5: Evaluation and Business Metrics
-1. Evaluate models using business-centric metrics:
-    - Precision-Recall Area Under Curve (PR-AUC).
-    - F1-Score and Matthews Correlation Coefficient (MCC).
-    - Recall at fixed False Positive Rates.
-2. Conduct error analysis to understand misclassifications.
-3. Perform a cost-benefit analysis based on fraud detection vs. false alarm costs.
+## Phase 5: Evaluation and Business Metrics (COMPLETED)
+1. Evaluate using PR-AUC, Confusion Matrix, and F1-Score.
+2. Implement **Business Impact Analysis** to calculate real-world financial benefit:
+   - Potential Loss Prevented ($500 per TP)
+   - False Alarm Costs ($20 per FP)
+   - Net Financial Benefit estimation.
 
-## Phase 6: Full Pipeline Integration and Deployment
-1. Refactor code into clean, modular components within `src/fraudx/`.
-2. Implement a unified Scikit-learn or similar pipeline for seamless inference.
-3. Add comprehensive logging and monitoring hooks.
-4. Verify package installation with `uv sync` and `uv run`.
+## Phase 6: Full Pipeline Integration (COMPLETED)
+1. Create a unified entry point in `src/main.py`.
+2. Enable optional hyperparameter tuning within the main execution flow.
+3. Output comprehensive logs for each pipeline stage.
 
-## Phase 7: Quality Assurance
-1. Achieve high test coverage for core logic and data transformations.
-2. Enforce strict linting and type checking using Ruff and Mypy.
-3. Document API and internal modules for maintainability.
+## Phase 7: Quality Assurance and Maintenance (STRETCH)
+1. Maintain zero-error status for `Ruff` and `Mypy`.
+2. (Next) Implement unit tests in `tests/` using `pytest`.
+3. (Next) Add model persistence (saving `.json` or `.joblib` models).
+4. (Next) Dockerize the pipeline for consistent execution.

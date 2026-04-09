@@ -1,4 +1,4 @@
-# Pyrefly Configuration: Modern 2026 Standards
+# Pyrefly Configuration: Modern Standards
 # Using relative paths for portability and uv environment mapping
 
 project-includes = ["src"]
